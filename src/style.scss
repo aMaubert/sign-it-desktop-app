@@ -3,12 +3,13 @@
 
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
-$primary: #2eee6e;
-$primary-invert: rgba(0,0,0,0.7);
-$colors: (
-  "primary": ($primary, $primary-invert),
-);
+//$primary: rgba(46, 216, 238, 0.68);
+//$primary-invert: rgba(0,0,0,0.7);
+//$colors: (
+//  "primary": ($primary, $primary-invert),
+//);
 
 // Import Bulma and Buefy styles
 @import '~bulma';
 @import '~buefy/src/scss/buefy';
+

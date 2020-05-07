@@ -1,17 +1,28 @@
 <template>
-  <div id="app" class="has-background-primary">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div id="app">
+    <nav-bar></nav-bar>
+    <div class="columns">
+      <div class="column is-half">
+        <ImageUploader></ImageUploader>
+        <model-selection></model-selection>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
+import ImageUploader from "@/components/ImageUploader.vue";
+import NavBar from "@/components/NavBar.vue";
+import ModelSelection from "@/components/ModelSelection.vue";
 
 @Component({
   components: {
     HelloWorld,
+    ImageUploader,
+    NavBar,
+    ModelSelection
   },
 })
 export default class App extends Vue {}
@@ -20,14 +31,5 @@ export default class App extends Vue {}
 <style lang="scss">
 
   @import "style";
-
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
 
 </style>
