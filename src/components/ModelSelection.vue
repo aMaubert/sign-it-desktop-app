@@ -1,23 +1,35 @@
 <template>
-    <section class="has-background-primary">
-        <h1 class="title is-3">
-            Choix du Modele à entrainer
-        </h1>
+    <section class="padding-20" >
         <b-field>
-            <span>
-                Select a model :
-            </span>
-            <select >
-                <option>Model 1</option>
-                <option>Model 2</option>
-                <option>Model 3</option>
-            </select>
+            <h1 class="title is-3 has-text-centered">
+                Choix du Modele
+            </h1>
         </b-field>
-        <b-field>
-            <b-button class="is-primary">
-                Launch Prediction
-            </b-button>
-        </b-field>
+
+        <div class="card">
+            <div class="card-content columns is-marginless">
+                <b-field label="Selection d'un model"
+                         class="is-offset-1 margin-lef5">
+                    <b-autocomplete v-model="name"
+                                    :data="filteredData"
+                                    icon="search"
+                                    rounded
+                                    clearable
+                                    open-on-focus>
+                        <template slot="empty">Pas de résultat</template>
+                    </b-autocomplete>
+                </b-field>
+            </div>
+            <div class="card-footer">
+                <b-field class="card-footer-item">
+                    <b-button class="is-primary">
+                        Launch Prediction
+                    </b-button>
+                </b-field>
+            </div>
+        </div>
+
+
 
     </section>
 </template>
@@ -29,24 +41,11 @@
     @Component
     export default class ModelSelection extends Vue  {
         private models = ['Lineaire', 'Model 2', 'Model 3'];
-        private data = [
-            'Angular',
-            'Angular 2',
-            'Aurelia',
-            'Backbone',
-            'Ember',
-            'jQuery',
-            'Meteor',
-            'Node.js',
-            'Polymer',
-            'React',
-            'RxJS',
-            'Vue.js'
-        ];
-        private name = '';
+
+        private name = this.models[0];
 
         get filteredData(): string[] {
-            return this.data.filter((option) => {
+            return this.models.filter((option) => {
                 return option
                     .toString()
                     .toLowerCase()
@@ -56,6 +55,10 @@
     }
 </script>
 
-<style scoped>
+<style scoped
+       lang="scss">
 
+    .padding-20 {
+        padding: 20px;
+    }
 </style>

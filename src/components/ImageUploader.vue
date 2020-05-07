@@ -1,27 +1,22 @@
 <template>
-    <div>
-        <b-field>
-            <h1 class="title is-2 has-text-centered">
-                Image
-            </h1>
-        </b-field>
+    <section class="padding-20">
+        <h1 class="title is-3 has-text-centered">
+            Image
+        </h1>
         <b-field class="columns">
             <b-upload v-if="!displayImage"
                       class="column"
                       @input="files => loadLastFile(files)"
                       multiple
                       drag-drop>
-                <section class="section">
+                <div class="section">
                     <div class="content has-text-centered">
-                        <p>
-                            <b-icon
-                                    icon="upload"
+                            <b-icon icon="upload"
                                     size="is-large">
                             </b-icon>
-                        </p>
                         <p>Drop your files here or click to upload</p>
                     </div>
-                </section>
+                </div>
             </b-upload>
             <div v-if="displayImage"
                  class="column" >
@@ -29,7 +24,9 @@
                     <div class="card-image is-flex">
                         <div class="margin-auto">
                             <figure class="image is-128x128">
-                                <img alt="image loaded" v-bind:src="loadImage"/>
+                                <img class="is-rounded"
+                                     alt="image loaded"
+                                     v-bind:src="loadImage"/>
                             </figure>
                         </div>
                     </div>
@@ -50,7 +47,7 @@
                 </div>
             </div>
         </b-field>
-    </div>
+    </section>
 </template>
 
 <script lang="ts">
@@ -92,7 +89,19 @@
     }
 </script>
 
-<style scoped>
+<style scoped
+        lang="scss">
+
+    @import '~bulma';
+
+    .column {
+        border: none;
+    }
+
+    .padding-20 {
+        padding: 20px;
+    }
+
     .margin-auto {
         margin: auto;
     }

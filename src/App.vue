@@ -1,28 +1,22 @@
 <template>
   <div id="app">
     <nav-bar></nav-bar>
-    <div class="columns">
-      <div class="column is-half">
-        <ImageUploader></ImageUploader>
-        <model-selection></model-selection>
-      </div>
-    </div>
+
+    <!-- route outlet -->
+    <!-- component matched by the route will render here -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
-import ImageUploader from "@/components/ImageUploader.vue";
 import NavBar from "@/components/NavBar.vue";
-import ModelSelection from "@/components/ModelSelection.vue";
 
 @Component({
   components: {
     HelloWorld,
-    ImageUploader,
-    NavBar,
-    ModelSelection
+    NavBar
   },
 })
 export default class App extends Vue {}
@@ -31,5 +25,14 @@ export default class App extends Vue {}
 <style lang="scss">
 
   @import "style";
+
+  .content-body {
+    padding: 20px;
+  }
+
+
+  .section-component {
+    border: solid 2px $primary;
+  }
 
 </style>
