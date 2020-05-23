@@ -22,7 +22,8 @@
             </div>
             <div class="card-footer">
                 <b-field class="card-footer-item">
-                    <b-button class="is-primary">
+                    <b-button class="is-primary"
+                            @click="emitLaunchPredictEvent">
                         Launch Prediction
                     </b-button>
                 </b-field>
@@ -41,6 +42,7 @@
     @Component
     export default class ModelSelection extends Vue  {
         private models = ['Lineaire', 'Model 2', 'Model 3'];
+        private readonly launchPredictEvent = 'launch-predict';
 
         private name = this.models[0];
 
@@ -51,6 +53,11 @@
                     .toLowerCase()
                     .indexOf(this.name.toLowerCase()) >= 0
             });
+        }
+
+        private emitLaunchPredictEvent(): void {
+            console.log('emitLaunchPredictEvent');
+            this.$emit(this.launchPredictEvent);
         }
     }
 </script>

@@ -1,8 +1,12 @@
 <template>
     <div class="columns content-body">
         <div class="column is-half">
-            <ImageUploader class="section-component"></ImageUploader>
-            <model-selection class="section-component"></model-selection>
+            <ImageUploader class="section-component"
+                            v-model="image">
+            </ImageUploader>
+            <model-selection class="section-component"
+                            v-on:launch-predict="predict">
+            </model-selection>
         </div>
         <div class="column">
             <ResultPrediction class="section-component"></ResultPrediction>
@@ -16,6 +20,7 @@
     import ModelSelection from "@/components/ModelSelection.vue";
     import ResultPrediction from "@/components/ResultPrediction.vue";
     import ImageUploader from "@/components/ImageUploader.vue";
+    import {predictService} from "@/api/predict.service";
 
     @Component({
         components : {
@@ -25,6 +30,21 @@
         }
     })
     export default class HomePage extends Vue {
+        private image: object = {};
+
+
+        async predict() {
+            console.log('Prediction to make :) ');
+            console.log({image : this.image});
+            if (this.image === undefined) return ;
+            try{
+                const response = await predictService.predict(this.image);
+                console.log(response);
+            } catch (e) {
+                console.log({error: e});
+            }
+
+        }
     }
 </script>
 

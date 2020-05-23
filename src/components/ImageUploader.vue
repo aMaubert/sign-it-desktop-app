@@ -51,14 +51,20 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
+    import {Component, Prop, Vue} from "vue-property-decorator";
     import Jimp from 'jimp';
+    import {exists} from 'fs';
+    import {promisify} from 'util';
+
+    const fileExistAsync = promisify(exists);
 
     @Component
     export default class ImageUploader extends  Vue {
         private file: any = undefined;
         private image: string = '';
 
+        @Prop({default: {} })
+        value: object | undefined
 
         public deleteFile(): void {
             this.file = undefined;
@@ -66,9 +72,17 @@
         }
 
         public async loadLastFile(files: any): Promise<void> {
+            console.log(files);
             this.file = files[files.length - 1];
+
             try {
-                const image = await Jimp.read(this.file.path);
+                let url = this.file.path;
+                const fileExist = fileExistAsync(this.file.path);
+                if(fileExist) {
+                    url = 'file://' + url;
+                }
+                const image = await Jimp.read(url);
+                this.$emit('input', image);
                 image.resize(256, 256)// resize
                      .quality(60);// set JPEG quality
                 this.image = await image.getBase64Async(Jimp.MIME_JPEG);
