@@ -38,13 +38,27 @@
 <script lang="ts">
 
     import {Vue, Component} from "vue-property-decorator";
+    import {modelsService} from "@/api/models.service";
 
     @Component
     export default class ModelSelection extends Vue  {
-        private models = ['Lineaire', 'Model 2', 'Model 3'];
+        //private models = ['Lineaire', 'Model 2', 'Model 3'];
+        private models = this.fillModelList();
         private readonly launchPredictEvent = 'launch-predict';
 
         private name = this.models[0];
+
+
+        fillModelList(): string[]{
+            var list: string[] = [];
+            modelsService.fetchAll().then((models) =>{
+                for(let i in models){
+                    list.push(models[i].type)
+                }
+            });
+            console.log(list);
+            return list;
+        }
 
         get filteredData(): string[] {
             return this.models.filter((option) => {

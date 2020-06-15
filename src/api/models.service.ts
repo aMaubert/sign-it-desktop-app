@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {IModel} from "@/definitions/model.interface";
 
-const baseUrl = 'http://localhost:5000';
+const baseUrl = 'http://localhost:8080';
 const uri = '/models/';
 
 
