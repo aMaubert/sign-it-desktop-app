@@ -7,9 +7,9 @@
         </b-field>
 
         <div class="card">
-            <div class="card-content columns is-marginless">
+            <div class="card-content is-marginless">
                 <b-field label="Selection d'un model"
-                         class="is-offset-1 margin-lef5">
+                         class=" margin-lef5">
                     <b-autocomplete v-model="name"
                                     :data="filteredData"
                                     icon="search"
@@ -29,35 +29,56 @@
                 </b-field>
             </div>
         </div>
-
-
-
     </section>
 </template>
 
 <script lang="ts">
 
     import {Vue, Component} from "vue-property-decorator";
+    import {IModel} from "@/definitions";
+    import {modelsService} from "@/api/models.service";
 
     @Component
     export default class ModelSelection extends Vue  {
-        private models = ['Lineaire', 'Model 2', 'Model 3'];
+        private models: Array<IModel> = [];
         private readonly launchPredictEvent = 'launch-predict';
 
-        private name = this.models[0];
+        private name = '';
+
+        private static modelName(model: IModel): string {
+            return `${model.type} ${model.image_size} ${model.image_format} (${model.nb_epochs} epochs)`;
+        }
 
         get filteredData(): string[] {
-            return this.models.filter((option) => {
-                return option
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(this.name.toLowerCase()) >= 0
+            const modelNames = this.models.map((eachModel: IModel) => ModelSelection.modelName(eachModel) );
+            return modelNames.filter((eachModelName: string) => {
+                return eachModelName.toLowerCase()
+                                    .indexOf(this.name.toLowerCase()) >= 0;
             });
         }
 
         private emitLaunchPredictEvent(): void {
             console.log('emitLaunchPredictEvent');
-            this.$emit(this.launchPredictEvent);
+            const modelSelected = this.models.filter((eachModel: IModel) =>
+                                                        ModelSelection.modelName(eachModel) === this.name);
+
+            if( modelSelected.length !== 1) {
+                this.$buefy.toast.open ({
+                    duration: 2000,
+                    message: `Something isn't good here`,
+                    position: 'is-top',
+                    type: 'is-danger'
+                });
+                return;
+            }
+
+            this.$emit( this.launchPredictEvent, modelSelected[0]);
+        }
+
+        async mounted() {
+            console.log('mounted GenerateModel');
+            this.models = await modelsService.fetchAll();
+            console.log('models ', this.models);
         }
     }
 </script>

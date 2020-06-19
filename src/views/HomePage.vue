@@ -5,7 +5,7 @@
                             v-model="image">
             </ImageUploader>
             <model-selection class="section-component"
-                            v-on:launch-predict="predict">
+                            v-on:launch-predict="model => predict(model)">
             </model-selection>
         </div>
         <div class="column">
@@ -21,6 +21,7 @@
     import ResultPrediction from "@/components/ResultPrediction.vue";
     import ImageUploader from "@/components/ImageUploader.vue";
     import {predictService} from "@/api/predict.service";
+    import {IModel} from "@/definitions";
 
     @Component({
         components : {
@@ -32,13 +33,13 @@
     export default class HomePage extends Vue {
         private image: object = {};
 
+        async predict(model: IModel) {
 
-        async predict() {
             console.log('Prediction to make :) ');
-            console.log({image : this.image});
+            console.log({model});
             if (this.image === undefined) return ;
             try{
-                const response = await predictService.predict(this.image);
+                const response = await predictService.predict(this.image, model);
                 console.log(response);
             } catch (e) {
                 console.log({error: e});

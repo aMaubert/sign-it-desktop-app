@@ -6,10 +6,8 @@
         <div >
             <model-generate-form class="column is-half is-offset-3"
                                  :models="models">
-
             </model-generate-form>
         </div>
-
     </div>
 </template>
 
@@ -26,6 +24,10 @@
     })
     export default class GenerateModel extends Vue{
         models: Array<IModel> = [];
+
+        private modelName(model: IModel): string {
+            return `${model.type} ${model.image_size} ${model.image_format} (${model.nb_epochs} epochs)`;
+        }
 
         async mounted() {
             console.log('mounted GenerateModel');
