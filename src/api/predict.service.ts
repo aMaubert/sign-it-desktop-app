@@ -6,18 +6,31 @@ const baseUrl = process.env.VUE_APP_API_BASE_URL !== undefined ? process.env.VUE
 //'http://localhost:8080'
 const uri = '/predict/';
 
+const makeOptionsRequest = function (options: {[index: string]:any} ) {
+  const optionList = [];
+
+  for(const eachOptionName in options) {
+    const option  = options[eachOptionName];
+    if( typeof option === 'string' || typeof option === 'number' || typeof option === 'boolean' ) {
+      optionList.push(`${eachOptionName}=${option}`);
+    } else if( Array.isArray(option)) {
+      optionList.push(`${eachOptionName}=(${option.join(',') })`);//option.map(val => `${eachOptionName}=${val}`
+    } else if( option && typeof option === 'object') {
+      optionList.push(`${eachOptionName}=${option.toJSON()}`)
+    }
+  }
+  return optionList;
+};
+
 class PredictService {
   async predict( image: any, model: IModel): Promise<AxiosResponse> {
-    const url = baseUrl + uri ;
+    const options = makeOptionsRequest(model);
+    const url = baseUrl + uri + '?' + options.join('&');
     const buffer = await image.getBufferAsync(image.getMIME());
-    console.log('post request');
+    console.log({url});
     return axios.post(url, buffer, {
       headers : {
-        'Content-Type': image.getMIME(),
-        'X-Model-Type' : model.type,
-        'X-Image-Format' : model.image_format,
-        'X-Image-Size' : model.image_size,
-        'X-Epochs' : model.nb_epochs
+        'Content-Type': image.getMIME()
       }
     });
   }

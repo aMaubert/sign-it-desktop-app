@@ -72,8 +72,9 @@
         }
 
         public async loadLastFile(files: any): Promise<void> {
-            console.log(files);
+
             this.file = files[files.length - 1];
+            console.log({file : this.file});
 
             try {
                 let url = this.file.path;

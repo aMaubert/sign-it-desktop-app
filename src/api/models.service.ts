@@ -13,6 +13,17 @@ class ModelsService {
         return response.data as Array<IModel>;
     }
 
+    async fetchAllTypes(): Promise<Array<IModel>> {
+        const url = baseUrl + uri + 'types';
+        const response =  await axios.get(url) ;
+        return response.data as Array<IModel>;
+    }
+
+    async createModel(model: IModel): Promise<void> {
+        const url = baseUrl + uri;
+        await axios.post(url, model);
+    }
+
 }
 
 export const modelsService = new ModelsService();

@@ -5,20 +5,18 @@
         </h1>
         <div class="card">
 
-            <div class="card-header">
-                <h1 class="title is-5 margin-auto">
+            <header class="card-header">
+                <h1 class="card-header-title title is-5 margin-auto">
                     Prédiction
                 </h1>
 
-            </div>
+            </header>
             <div class="card-content">
-                <span>
-                    Panneau d'obligation   : 89%
-                    <br>
-                    Panneau d'interdiction : 10.5%
-                    <br>
-                    Panneau de danger      : 0.5%
-                </span>
+                <ul class="is-lower-roman">
+                    <li>Panneau d'obligation   : {{predictions[categoryType().Obligation]}} %</li>
+                    <li>Panneau d'interdiction : {{predictions[categoryType().Prohibition]}} %</li>
+                    <li>Panneau de danger      : {{predictions[categoryType().Danger]}} %</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -26,10 +24,27 @@
 
 <script lang="ts">
 
-    import {Vue, Component} from "vue-property-decorator";
+    import {Vue, Component, Prop} from "vue-property-decorator";
+    import {CategoryType} from '@/definitions';
+
 
     @Component
     export default class ResultPrediction extends Vue {
+        @Prop({default: {}  } )
+        predictions !: {[index: string]:any};
+
+        get predictionsComputed() {
+            return this.predictions;
+        }
+
+        categoryType() {
+            return CategoryType;
+        }
+
+        mounted(){
+            console.log({predictions : this.predictions});
+        }
+
 
     }
 </script>

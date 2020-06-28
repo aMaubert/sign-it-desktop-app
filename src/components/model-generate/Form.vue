@@ -62,6 +62,7 @@
 
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
     import {IModel} from "@/definitions/model.interface";
+    import {modelsService} from "@/api/models.service";
 
     @Component({})
     export default class ModelGenerateForm extends Vue {
@@ -98,6 +99,7 @@
             };
 
             //TODO HTTP request to train
+            await modelsService.createModel(model);
 
             this.training = false;
         }

@@ -5,7 +5,8 @@
         </h1>
         <div >
             <model-generate-form class="column is-half is-offset-3"
-                                 :models="models">
+                                 :models="models"
+                                  v-on:create="model => createModel(model)">
             </model-generate-form>
         </div>
     </div>
@@ -31,7 +32,7 @@
 
         async mounted() {
             console.log('mounted GenerateModel');
-            this.models = await modelsService.fetchAll();
+            this.models = await modelsService.fetchAllTypes();
             console.log('models ', this.models);
         }
 
