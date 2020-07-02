@@ -52,7 +52,6 @@
                         this.predictions[eachCategory] = Math.round(this.predictions[eachCategory] *1000 )/1000 ;
                     }
                 }
-
                 this.showPrediction = true;
             } catch (e) {
                 console.log({error: e});

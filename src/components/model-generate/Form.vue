@@ -14,7 +14,7 @@
                                 rounded>
                 </b-autocomplete>
             </b-field>
-            <b-field :label="`Nombre d'Epochs :  ${epochs}`">
+            <b-field :label="`Nombre d'Epochs : ${epochs}`">
                 <b-slider class="marginBottom"
                           v-model="epochs"
                           type="is-primary"
@@ -27,6 +27,17 @@
                         </b-slider-tick>
                     </template>
                 </b-slider>
+            </b-field>
+
+            <b-field label="Format de l'image">
+                <b-select placeholder="Selectionne un format d'image"
+                            v-model="imageFormat"
+                            rounded
+                            expanded>
+                    <option v-for="eachFormat in allImageFormats">
+                        {{eachFormat}}
+                    </option>
+                </b-select>
             </b-field>
 
             <b-field label="Taille de l'image">
@@ -63,6 +74,7 @@
     import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
     import {IModel} from "@/definitions/model.interface";
     import {modelsService} from "@/api/models.service";
+    import {ImageFormat} from "@/definitions";
 
     @Component({})
     export default class ModelGenerateForm extends Vue {
@@ -73,7 +85,7 @@
         private imageWidth = 64;
         private imageHeight = 64;
         private epochsThicks = [1,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950, 1000]
-
+        private imageFormat = ImageFormat.RGB.toString()
         private training = false;
 
         @Prop({default: () => new Array<IModel>()})
@@ -91,8 +103,10 @@
         async launchTraining() {
             this.training = true;
 
+            console.log({image_format: this.imageFormat});
+
             const model: IModel = {
-                image_format: 'RGB',
+                image_format: this.imageFormat,
                 image_size: [this.imageWidth, this.imageHeight],
                 type: this.chosenType,
                 nb_epochs: this.epochs
@@ -102,6 +116,10 @@
             await modelsService.createModel(model);
 
             this.training = false;
+        }
+
+        get allImageFormats(): Array<String> {
+            return Object.keys(ImageFormat);
         }
 
         @Watch('models')
