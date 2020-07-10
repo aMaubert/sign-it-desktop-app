@@ -11,7 +11,8 @@
         <div class="column">
             <ResultPrediction class="section-component"
                               v-if="showPrediction"
-                              :predictions="predictions" >
+                              :predictions="predictions"
+                              :model-used="model">
             </ResultPrediction>
         </div>
     </div>
@@ -37,14 +38,14 @@
         private image: object = {};
         private predictions: {[index: string] : any} | undefined = undefined;
         private showPrediction = false;
+        private model: IModel | undefined = undefined;
 
         async predict(model: IModel) {
             this.showPrediction = false;
-            console.log('Prediction to make :) ');
-            console.log({model});
             if (this.image === undefined) return ;
             try{
                 this.predictions = undefined;
+                this.model = undefined;
                 const response = await predictService.predict(this.image, model);
                 this.predictions = response.data;
                 if( typeof this.predictions === 'object') {
@@ -52,6 +53,8 @@
                         this.predictions[eachCategory] = Math.round(this.predictions[eachCategory] *1000 )/1000 ;
                     }
                 }
+                this.model = model;
+                console.log('model updated ', this.model);
                 this.showPrediction = true;
             } catch (e) {
                 console.log({error: e});
@@ -61,6 +64,7 @@
         get predictionsData() {
             return this.predictions;
         }
+
     }
 </script>
 

@@ -1,6 +1,25 @@
-enum Model {
-    Linear = "Linear",
-    Model  = "Model 1",
-    Model2 = "Model 2",
-    Model3 = "Model 3"
+export enum ModelType {
+    LinearModel = "LinearModel",
+    MLPModel  = "MLPModel",
+    CNNModel = "CNNModel",
+    DenseResidualNN = "DenseResidualNN"
+}
+
+export class ModelTypeUtil {
+
+    public static translationType(modelType: ModelType): string {
+        switch (modelType) {
+            case ModelType.LinearModel :
+                return 'Modèle Linéaire';
+            case ModelType.MLPModel :
+                return 'Percéptron multicouche';
+            case ModelType.CNNModel :
+                return 'Convolutional Neural Network';
+            case ModelType.DenseResidualNN :
+                return 'Dense Résidual Neural Network';
+            default:
+                return '';
+
+        }
+    }
 }
