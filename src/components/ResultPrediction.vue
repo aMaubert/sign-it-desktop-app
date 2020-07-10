@@ -19,6 +19,10 @@
                     <li>Panneau d'interdiction : {{predictions[categoryType().Prohibition]}} %</li>
                     <li>Panneau de danger      : {{predictions[categoryType().Danger]}} %</li>
                 </ul>
+
+                <div class="has-margin-top title is-5">
+                    {{ predictionWinner }}
+                </div>
             </div>
         </div>
     </section>
@@ -57,6 +61,17 @@
             return ModelTypeUtil.translationType(modelType);
         }
 
+        get predictionWinner() {
+            console.log('predictionWinner !!! ');
+            if( this.predictions[CategoryType.Obligation] > this.predictions[CategoryType.Danger] &&
+                this.predictions[CategoryType.Obligation] > this.predictions[CategoryType.Prohibition]) {
+                return "Panneau d'obligation";
+            } else if ( this.predictions[CategoryType.Danger] > this.predictions[CategoryType.Obligation] &&
+                        this.predictions[CategoryType.Danger] > this.predictions[CategoryType.Prohibition]) {
+                return "Panneau de danger";
+            }
+            return "Panneau de d'interdiction";
+        }
     }
 </script>
 
@@ -68,6 +83,10 @@
 
     .margin-auto {
         margin: auto;
+    }
+
+    .has-margin-top {
+        margin-top: 5%;
     }
 
 </style>
